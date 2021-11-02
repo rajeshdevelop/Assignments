@@ -88,3 +88,4 @@ db.comments.insertMany([
 5. db.comments.find()
 6. db.comments.find({username:"GoodGuyGreg"})
 7. db.comments.find({username:"ScumbagSteve"})
+8. db.comments.find({post:[objectId("607f49ca845ea1cba8e2ij22")]})
