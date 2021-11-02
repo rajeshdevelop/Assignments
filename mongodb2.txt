@@ -1,0 +1,80 @@
+1. use db.zipcodes.find() to filter results to only the results where city is ATLANTA and state in GA.
+     >db.zipcodes.find({$and:[{city:'ATLANTA'},{state:'GA'}]})
+     { _id: '30303',
+     city: 'ATLANTA',
+     loc: [ -84.388846, 33.752504 ],
+     pop: 1845,
+     state: 'GA' }
+
+2. use db.zipcodes.aggregate with $match to do the same as above.
+    >db.zipcodes.aggregate({$match:{$and:[{city:'ATLANTA'},{state:'GA'}]}})
+     { _id: '30303',
+     city: 'ATLANTA',
+     loc: [ -84.388846, 33.752504 ],
+     pop: 1845,
+     state: 'GA' }
+
+3. use $group to count the number of zipcodes in Atlanta.
+     >db.zipcodes.aggregate([{$match:{city:'ATLANTA'}},{$group:{_id:'$id'}},{$count:'unique_zipcodes'}])
+     { unique_zipcodes: 1 }
+
+4. use $group to find the total population in Atlanta.
+    >db.zipcodes.aggregate([{$match:{city:'ATLANTA'}},{$group:{_id:'city',totalpopulationinAtlanta:{$sum:'$pop'}}}])
+    
+     { _id: 'city', totalpopulationinAtlanta: 630046 }
+     
+                  POPULATION BY STATE:
+ 
+1. use aggregate to calculate the total population for each state.
+      >db.zipcodes.aggregate([{$group:{_id:'$state',statewisepopulation:{$sum:'$pop'}}}])
+    
+      { _id: 'NY', statewisepopulation: 17990402 }
+      { _id: 'ME', statewisepopulation: 1226648 }
+      { _id: 'FL', statewisepopulation: 12686644 }
+      { _id: 'IN', statewisepopulation: 5544136 }
+      { _id: 'ND', statewisepopulation: 638272 }
+
+2. sort the results by population, highest first.
+        >db.zipcodes.aggregate([{$group:{_id:{city:'$city',state:'$state'},population:{$sum:'$pop'}}},{$sort:{population:-1}}])
+   
+        { _id: { city: 'CHICAGO', state: 'IL' }, population: 2452177 }
+        { _id: { city: 'BROOKLYN', state: 'NY' }, population: 2300504 }
+        { _id: { city: 'LOS ANGELES', state: 'CA' },
+         population: 2102295 }
+        { _id: { city: 'HOUSTON', state: 'TX' }, population: 2095918 }
+        { _id: { city: 'PHILADELPHIA', state: 'PA' },
+         population: 1610956 }
+3.limit the results to just the first 3 results. what are the top 3 cities in population?
+        >db.zipcodes.aggregate([{$group:{_id:{city:'$city',state:'$state'},population:{$sum:'$pop'}}},{$sort:{population:-1}},{$limit:3}])
+   
+         { _id: { city: 'CHICAGO', state: 'IL' }, population: 2452177 }
+         { _id: { city: 'BROOKLYN', state: 'NY' }, population: 2300504 }
+	 { _id: { city: 'LOS ANGELES', state: 'CA' },
+	  population: 2102295 }
+4.what are the top 3 cities in population in texas.
+         >db.zipcodes.aggregate([{$match:{state:'TX'}},{$group:{_id:{city:'$city',state:'$state'},population:{$sum:'$pop'}}},{$sort:{population:-1}},{$limit:3}])
+   
+	{ _id: { city: 'HOUSTON', state: 'TX' }, population: 2095918 }
+	{ _id: { city: 'DALLAS', state: 'TX' }, population: 940191 }
+	{ _id: { city: 'SAN ANTONIO', state: 'TX' },
+  	population: 811792 }
+
+                 BONUS:
+
+write a query to get the average city populaton for each state.
+      >db.zipcodes.aggregate([{$group:{_id:{state:'$state',city:'$city'},Avgpop:{$avg:'$pop'}}}])
+   
+	{ _id: { state: 'PA', city: 'SHREWSBURY' }, Avgpop: 3749 }
+	{ _id: { state: 'OR', city: 'SUNRIVER' }, Avgpop: 2881 }
+	{ _id: { state: 'ND', city: 'MEDINA' }, Avgpop: 622 }
+	{ _id: { state: 'TX', city: 'HUTCHINS' }, Avgpop: 2716 }
+	{ _id: { state: 'MT', city: 'WYOLA' }, Avgpop: 375 }
+	{ _id: { state: 'OK', city: 'HASTINGS' }, Avgpop: 210 }
+	{ _id: { state: 'IA', city: 'RADCLIFFE' }, Avgpop: 804 }
+what are the top 3 states in terms of average city population.
+       >db.zipcodes.aggregate([{$group:{_id:{state:'$state',city:'$city'},Avgpop:{$avg:'$pop'}},{$sort:{Avgpop:-1}},{$limit:3}}])
+         {_id:{state:'CA',city:'BROOKLYN'}, Avgpop: 9950}
+         {_id:{state:'CA',city:'HUTCHINS'}, Avgpop: 9415}
+
+
+    
