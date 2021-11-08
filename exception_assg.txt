@@ -1,0 +1,130 @@
+  ASSIGNMENT OF EXCEPTION HANDLING:
+
+1. ARITHMETIC EXCEPTION:
+
+import java.lang.*;
+import java.util.Scanner;
+public class Exception {
+
+	public static void main(String[] args) {
+   Scanner sc= new Scanner(System.in);
+   System.out.println("enter the first number");
+   double i = sc.nextDouble();
+   System.out.println("enter the second number");
+   double j = sc.nextDouble();
+   try 
+   {
+	   double r=i/j;
+	   System.out.println(r);
+   }
+   catch(ArithmeticException e) {
+	   System.out.println(e);
+   }
+   {
+	   System.out.println("denominator cannot be zero");
+	   System.out.println("re-enter the second number");
+	   j= sc.nextDouble();
+	   System.out.println("division is:"+i/j);
+	   
+         }
+	}
+
+}
+
+2. UNSUPPORTEDOPERATIONEXCEPTION:
+
+import java.util.Scanner;
+		public class UnsupportedOperation {
+
+			public static void main(String[] args) {
+				Scanner s = new Scanner(System.in);
+				System.out.println("Enter the numerator and denominator:");
+				int a = s.nextInt();
+				int b =s.nextInt();
+				try {
+					double r=a/b;
+					System.out.println("the quotient is:"+r);
+				}
+				catch(UnsupportedOperationException e)
+				{
+					System.out.println("cannot divide by zero");
+				}
+			     }
+			public static double divide(int a,int b) throws UnsupportedOperationException{
+				if(b==0) {
+					throw new UnsupportedOperationException("Exception");
+				}
+				return a/b;
+		            }
+		}
+               }
+
+
+3.WRITE AN APPLICATION TO PERFORM WITHDRAW FUNCTIONALITY ON A SAVINGACCOUNT OBJECT:
+
+ import java.util.Scanner;
+		public class Atm_Transactions {
+			double balance= 2000.00;
+			 long id=98765;
+			double deposit,amount;
+			public void savingsaccount()  {
+				System.out.println("account Id "+id);
+				 System.out.println("Choose 1 for Withdraw");
+		         System.out.println("Choose 2 for Deposit");
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		{
+		try {
+		if(n==1){
+		System.out.println("enter withdraw amount");
+		amount=sc.nextDouble();
+		withdraw();
+		}
+		if(n==2) {
+			System.out.println("enter deposit amount");
+			amount=sc.nextDouble();
+			deposit=balance+amount;
+			System.out.println("Total amount "+deposit);
+		}
+		}
+		catch(InsufficientBalanceException e) {
+			System.out.println(e);}
+		catch(IllegalBankTransactionException e) {
+			System.out.println(e);
+		}
+		}
+		}
+		 public void withdraw() throws InsufficientBalanceException,IllegalBankTransactionException
+		{
+			if(amount>balance)
+			{
+		    throw new InsufficientBalanceException("insufficient balance enter less amount");
+		 }else{balance = balance-amount;
+		 if(amount<0) {
+			 throw new IllegalBankTransactionException("enter valid amount");
+		 }
+		 System.out.println("current balance "+balance);}}
+			
+			public static void main(String args[])
+		{
+
+		Atm_Transactions at=new Atm_Transactions();
+		at.savingsaccount();
+		}
+		
+	}
+       public class IllegalBankTransactionException extends Exception{
+	public IllegalBankTransactionException(String msg) {
+		super(msg);
+	}
+
+      }
+     public class InsufficientBalanceException extends Exception {
+	public InsufficientBalanceException(String msg) {
+		super(msg);
+	}
+
+     }
+
+
+
