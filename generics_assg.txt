@@ -1,0 +1,243 @@
+1.
+
+package Generics;
+import java.util.*;
+import java.lang.*;
+
+public class Employee1 {
+
+	
+	
+		private int id;
+		private String name;
+		private String dept;
+		private long sal;
+		
+		public int getId() {
+			return id;
+		}
+		public void setId(int id) {
+			this.id = id;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getDept() {
+			return dept;
+		}
+		public void setDept(String dept) {
+			this.dept = dept;
+		}
+		public long getSal() {
+			return sal;
+		}
+		public void setSal(long sal) {
+			this.sal = sal;
+		}
+		@Override
+		public String toString() {
+			return "Employee Details: [ Id: "+id+" Name: "+name+" Department: "+dept+" Salary: "+sal+"]";
+		}
+		
+		
+		
+		public boolean equals(Object o)
+		{
+			System.out.println("In equals " +"value is :" +this.name);
+			Employee1 employee = (Employee1)o;
+			if(employee.getName().equals(this.name))
+			{
+			return true;
+			}
+			return false;
+			}
+			 
+			@Override
+			public int hashCode() {
+			System.out.println("In hashcode "+"value is :"+this.name);
+			int hash = 3;
+			hash = 7 * hash + this.name.hashCode();
+			return hash;
+			}
+		}
+package Generics;
+import java.util.HashSet;
+import java.util.Scanner;
+
+public class HashSetEmployee {
+
+	public static void main(String[] args) {
+		
+				HashSet<Employee1> h = new HashSet<Employee1>();
+				Scanner sc=new Scanner(System.in);
+				Employee1 e[];
+				
+				System.out.println("Enter the number of employee objects");
+				int p=sc.nextInt();
+				e =new Employee1[p];
+				for(int i=0;i<p;i++)
+				{
+					System.out.println("Entr the details of Employee "+(i+1));
+					e[i] =new Employee1();
+					System.out.println("Enter id");
+					int p1=sc.nextInt();
+					e[i].setId(p1);
+					System.out.println("Enter name");
+					String n =sc.next();
+					e[i].setName(n);
+					System.out.println("Enter dept");
+					String d=sc.next();
+					e[i].setDept(d);
+					System.out.println("Enter sal");
+					long p4=sc.nextLong();
+					e[i].setSal(p4);
+					
+					h.add(e[i]);
+					
+				}
+				
+				System.out.println(h);
+			}
+		}
+2.
+
+package generics;
+import java.util.HashMap;
+import java.util.Random;
+public class Hashmap1 {
+	    public static void main(String[] args)
+	    {
+	        HashMap<Integer,Double> store=new HashMap<Integer,Double>();
+	        Random r=new Random();
+	        int max=45;
+	        double range=8.76;
+	        double min=7;
+	        for (int i = 0; i < 10; i++)
+	        {
+	            int x=(int)(r.nextInt(max));
+	            double y=range+r.nextDouble()-min;
+	            store.put(x,y);
+	            System.out.println(x+" "+y);
+	        }
+	        System.out.println(" ");
+	        System.out.println(store);
+	    }
+	
+}
+
+3.
+
+package Generics;
+public class Exchange1<T> {
+	      private T[] arr;
+
+		public Exchange1(T[] arr) {
+			super();
+			this.arr = arr;
+		}
+
+		public T[] getArr() {
+			return arr;
+		}
+
+		public void setArr(T[] arr) {
+			this.arr = arr;
+		}
+	      
+		public <E> void printElements(E[] arr)
+		{
+			for(E e : arr)
+			{
+				System.out.println(e);
+			}
+		}
+		 public static <T> void swap(T[] array, int i, int j)
+		 {
+			 
+	       	T temp = array[i];
+	         array[i] = array[j];
+	         array[j] = temp;
+	         
+		 }
+	}
+package Generics;
+import java.util.*;
+
+public class Mainclass1 {
+
+
+
+	public static void main(String[] args) {
+		Integer[] arr = {20,40,60,80};
+		int p=2;
+		int q=3;
+		
+		Exchange1<Integer> x = new Exchange1<>(arr);
+		Integer[] arr2 = x.getArr();
+		System.out.println("Swapping at index "+p+ " and "+q);
+		System.out.println("--------------before swap-----------");
+		x.printElements(arr);
+		x.swap(arr,p,q);
+		System.out.println("--------------after swap-----------");
+		x.printElements(arr);
+		}
+     }
+
+4.
+
+package Generics;
+import java.util.*;
+
+public class MyGenerics1 {
+
+	public static void main(String[] args) {
+		 
+  	  pair<String, String> myobj=new pair<String, String>("1","Hello");
+  	 
+        System.out.println(" { "+myobj.getKey()+" = "+myobj.getValue()+" } ");
+        
+        Date objc=new Date();
+        pair<String, java.util.Date> object=new pair<String,java.util.Date> ("Today is",objc);
+        
+        System.out.println(" { "+object.getKey()+" = "+object.getValue()+" } ");
+	}
+}
+
+
+class pair<K,V>
+{
+	private K key;
+	private V value;
+	public pair(K key, V value) {
+		super();
+		this.key = key;
+		this.value = value;
+	}
+	public K getKey() {
+		return key;
+	}
+	public void setKey(K key) {
+		this.key = key;
+	}
+	public V getValue() {
+		return value;
+	}
+	public void setValue(V value) {
+		this.value = value;
+	}
+	}
+
+
+
+
+
+
+
+
+
+
+
+	
