@@ -1,0 +1,119 @@
+1.
+
+public class Que1CustomAnnotation {
+
+	@interface Test {
+		int test_case();
+
+	}
+
+	@Test(test_case = 1)
+	public static void meth1() {
+		System.out.println("this is method 1");
+
+	}
+
+	@Test(test_case = 2)
+	public void meth2() {
+		System.out.println("this is method 2");
+	}
+
+	public static void main(String[] args) {
+		meth1();
+	}
+}
+
+2.
+
+package Annotations;
+
+		import java.lang.annotation.*;
+		
+  
+		public class Anno1 {
+		public static void main(String[] args) {
+				// TODO Auto-generated method stub
+				Information i=new Information("extra info");
+				Class c = i.getClass();
+				java.lang.annotation.Annotation an=c.getAnnotation(info.class);
+				info in=(info)an;
+				System.out.println(in.Date());
+				System.out.println(in.AuthorID());
+				System.out.println(in.Time());
+				System.out.println(in.version());
+		}
+		}
+				
+		@info(name="KANE",version=11,AuthorID=987,Author="MAXWELL",Date="11-11-1999",Time="8:30")
+			
+		class Information{
+			String extrainfo;
+
+			public Information(String extrainfo) {
+				super();
+				this.extrainfo = extrainfo;
+			}
+		}
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+import java.lang.annotation.RetentionPolicy;
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface info {
+
+	String name();
+	String supervisor()default "ONKAR";
+	int version();
+	int AuthorID();
+	String Author() default "MAXWELL";
+	String Date();
+	String Time();
+	String desp() default "hello its annotation program";
+	
+}
+
+3.
+
+package Lambda;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.Target;
+import java.lang.annotation.*;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@interface Execute{
+int sequence() default 0;
+}
+
+public class Annotation3 {
+	 public int num;
+
+	public static void main(String[] args) {
+  
+	testing s=new testing(pin: 56);
+    @SuppressWarnings("rawtypes")
+	Class t=s.getClass();
+    @SuppressWarnings("unchecked")
+	Annotation a=t.getAnnotation(Execute.class);
+    Execute x=(Execute)a;
+    System.out.println(x.sequence());
+	}
+}
+class testing{
+	private int pin;
+	public testing(int pin) {
+		this.pin=pin;
+	}
+	@Execute(sequence=1)
+	public static void run() {
+		
+	}
+	@Execute(sequence=2)
+	public static void run2() {}
+}
+
+
+
+			
